@@ -1,11 +1,46 @@
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, ActivityIndicator } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import { HbLogo } from "../../components/Logo";
 import { styles } from "./style";
 import { Colors, GlobalStyles } from "../../styles/GlobalStyles";
+import { useEffect, useState } from "react";
+
+import { API } from "../../services/ApiRequest";
+
+import Moment from 'moment';
 
 export default function HomePage()
 {
+    
+    const [loadingData, setLoadingData] = useState(false);
+
+    const [dadosSorteio, setDadosSorteio] = useState({});
+
+    const [message, setMessage] = useState("");
+
+    async function loadLastData()
+    {   
+        setLoadingData(true);
+
+        const response = await API.get("/houseburguer/api/lottery/get/last");
+
+
+        setDadosSorteio(response.data.item);
+
+        if(response.data.item.winner || !response.data.item)
+        {
+            setMessage("Não há um sorteio agendado no momento!");
+            console.log('winner');
+        }
+        else
+            setDadosSorteio(response.data.item);            
+
+        setLoadingData(false);
+
+    }
+
+    useEffect(()=>{Moment.locale('pt-br'); loadLastData() }, []);
+    
     return (
         <View style={GlobalStyles.mainContainer} >
             <StatusBar style='light' backgroundColor={Colors.primary} />
@@ -19,18 +54,30 @@ export default function HomePage()
                 escolher seu número da sorte!
                 Cada compra realizada lhe dará a escolha de um
                 número. Quanto mais comprar, mais chances 
-                terá de ganhar !{'\n\n'}
-                Proximo sorteio acontencerá dia <Text style={styles.strongText}>31/09/2022 </Text>  
-                e o prêmio será de <Text style={styles.strongText}>um Samsung Galaxy S22 Ultra</Text>
+                terá de ganhar!
             </Text>
 
-            <View style={styles.imageContainer} >
-                <Image source={require('../../../assets/demo.png')} style={styles.imageDesc}/>
-                <Text style={styles.imageDescText}>
-                    Possui uma tela de 6.8 polegadas, 5G, 512GB de Memoria e 12GB de RAM, câmera de 108 megapixels que permite ao Samsung Galaxy S22 Ultra tirar fotos fantásticas com uma resolução de 12000x9000 pixels e gravar vídeos em 8K a espantosa resolução de 7680x4320 pixels.
-                </Text>
-            </View>
+            {
+                loadingData ? 
+                <ActivityIndicator size="large" color={Colors.primary} /> 
+                :   
+                message != "" ? <Text style={{color: Colors.primary, fontSize: 18, textAlign: 'center'}} >{message}</Text>
+                :
+                <View>
+                    <Text style={styles.mainText} >
+                        Próximo sorteio acontencerá dia <Text style={styles.strongText}>{Moment(new Date(dadosSorteio.date)).format('DD/MM/YY HH:MM')} </Text>  
+                        e o prêmio será de <Text style={styles.strongText}>{dadosSorteio.award}</Text>
+                    </Text>
 
+                    <View style={styles.imageContainer} >
+                        <Image source={{uri: dadosSorteio.referenceImageUrl}} style={styles.imageDesc}/>
+                        <Text style={styles.imageDescText}>
+                            {dadosSorteio.description}
+                        </Text>
+                    </View>
+                </View>
+
+            }
             </ScrollView>
 
         </View>

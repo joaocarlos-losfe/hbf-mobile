@@ -1,68 +1,50 @@
-import { View, Text, ScrollView } from "react-native";
+import { useEffect, useState } from "react";
+import { View, ScrollView, ActivityIndicator } from "react-native";
 import { HbLogo } from "../../components/Logo";
 import { MenuItemCard } from "../../components/MenuItemCard";
 
-import { GlobalStyles } from "../../styles/GlobalStyles"
+import { Colors, GlobalStyles } from "../../styles/GlobalStyles"
 
 import {style} from "./styles"
+import { API } from "../../services/ApiRequest";
 
 export default function MenuPage()
 {
-    
+    const [ loadingItems, setLoadingItems ] = useState(false);
+    const [items, setItems] = useState([]);
+
+    async function apiItemsRequest()
+    {
+        setLoadingItems(true);
+        
+        const response = await API.get("houseburguer/api/menu/get");
+
+        setItems(response.data.item);
+        
+        setLoadingItems(false);
+    }
+
+    useEffect( ()=> { apiItemsRequest() }, []);
+
     return (
         <View style={GlobalStyles.mainContainer} >
             <HbLogo/>
             
             <ScrollView style={style.scrowView} >
-                <MenuItemCard 
-                    img={'https://assets.unileversolutions.com/recipes-v2/230447.jpg?imwidth=1600'}
-                    itemName={'Classic House'} 
-                    price={'11.50'} 
-                    desc={'Pão, Blend Bovino Artesanal, Queijo, Muzzarela,Ovo, Maionese, Tomate, Alface, Molho Especial'} 
-                />
-
-                <MenuItemCard 
-                    img={'https://www.sabornamesa.com.br/media/k2/items/cache/b9ad772005653afce4d4bd46c2efe842_XL.jpg'}
-                    itemName={'Monstrinho'} 
-                    price={'12.00'} 
-                    desc={'Pão, Blend Bovino Artesanal, Queijo, Muzzarela,Ovo, Maionese, Tomate, Alface, Molho Especial'} 
-                />
-
-                <MenuItemCard 
-                    img={'https://www.sabornamesa.com.br/media/k2/items/cache/b9ad772005653afce4d4bd46c2efe842_XL.jpg'}
-                    itemName={'Monstrinho'} 
-                    price={'12.00'} 
-                    desc={'Pão, Blend Bovino Artesanal, Queijo, Muzzarela,Ovo, Maionese, Tomate, Alface, Molho Especial'} 
-                />
-
-                <MenuItemCard 
-                    img={'https://www.sabornamesa.com.br/media/k2/items/cache/b9ad772005653afce4d4bd46c2efe842_XL.jpg'}
-                    itemName={'Monstrinho'} 
-                    price={'12.00'} 
-                    desc={'Pão, Blend Bovino Artesanal, Queijo, Muzzarela,Ovo, Maionese, Tomate, Alface, Molho Especial'} 
-                />
-
-                <MenuItemCard 
-                    img={'https://www.sabornamesa.com.br/media/k2/items/cache/b9ad772005653afce4d4bd46c2efe842_XL.jpg'}
-                    itemName={'Monstrinho'} 
-                    price={'12.00'} 
-                    desc={'Pão, Blend Bovino Artesanal, Queijo, Muzzarela,Ovo, Maionese, Tomate, Alface, Molho Especial'} 
-                    />
-
-                <MenuItemCard 
-                    img={'https://www.sabornamesa.com.br/media/k2/items/cache/b9ad772005653afce4d4bd46c2efe842_XL.jpg'}
-                    itemName={'Monstrinho'} 
-                    price={'12.00'} 
-                    desc={'Pão, Blend Bovino Artesanal, Queijo, Muzzarela,Ovo, Maionese, Tomate, Alface, Molho Especial'} 
-                    />
-
-                <MenuItemCard 
-                    img={'https://www.sabornamesa.com.br/media/k2/items/cache/b9ad772005653afce4d4bd46c2efe842_XL.jpg'}
-                    itemName={'Monstrinho'} 
-                    price={'12.00'} 
-                    desc={'Pão, Blend Bovino Artesanal, Queijo, Muzzarela,Ovo, Maionese, Tomate, Alface, Molho Especial'} 
-                />
-
+            {
+                loadingItems ? 
+                <ActivityIndicator size="large" color={Colors.primary}/> 
+                :
+                items.map((item)=>
+                {
+                    return <MenuItemCard 
+                    key={item._id}
+                    img={item.referenceImageUrl}
+                    itemName={item.itemName} 
+                    price={item.price} 
+                    desc={item.description} />
+                })
+            }
             </ScrollView>
         </View>
     )

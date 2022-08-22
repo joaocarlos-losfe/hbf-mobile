@@ -6,18 +6,18 @@ const style = StyleSheet.create
     card: 
     {
         borderColor: Colors.primary,
-        borderWidth: 1,
+        borderWidth: 0.8,
         padding: 12,
         width: '100%',
         borderRadius: 10,
         alignItems: 'center',
-        marginBottom: 24
+        marginBottom: 24,
     },
 
     image:
     {
         height: 200,
-        width: '98%',
+        width: '100%',
         resizeMode: 'cover',
         borderRadius: 10,
         marginBottom: 12
@@ -26,7 +26,7 @@ const style = StyleSheet.create
     title:
     {
         color: Colors.primary,
-        fontSize: 16,
+        fontSize: 14,
     },
 
     desc:
@@ -48,7 +48,7 @@ const style = StyleSheet.create
 
     button:
     {
-        backgroundColor: Colors.button,
+        backgroundColor: Colors.secondary,
         padding: 8,
         borderRadius: 4,
         display: 'flex',

@@ -4,7 +4,7 @@ export const Colors =
 {
     primary: '#ee2f2b',
     read: 'white',
-    button: '#181818'
+    secondary: '#181818'
 }
 
 export const GlobalStyles = StyleSheet.create(

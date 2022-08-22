@@ -5,7 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import HomePage from './Home';
 import MenuPage from './Menu';
 import PromotionPage from './Promotions';
-import DrawPage from './Draw';
+import  DrawPage  from './Draw';
 
 const Tab = createBottomTabNavigator();
 
