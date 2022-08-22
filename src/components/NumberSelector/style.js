@@ -5,7 +5,7 @@ export const styles = StyleSheet.create(
 {
     mainContainer:
     {
-        borderColor: Colors.primary,
+        borderColor: Colors.secondary,
         borderWidth: 1,
         display: 'flex',
         flexWrap: 'wrap',

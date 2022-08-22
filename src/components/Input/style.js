@@ -12,7 +12,7 @@ export const styles = StyleSheet.create
         borderColor: Colors.primary,
         borderRadius: 10,
         padding: 10,
-        marginBottom: 24,
+        marginBottom: 12,
         color: 'white'
     }
 })

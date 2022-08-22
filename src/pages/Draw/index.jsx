@@ -9,11 +9,13 @@ import { API } from "../../services/ApiRequest";
 import { styles } from "./style";
 import { NumberSelector } from "../../components/NumberSelector";
 import { CustonMainButton } from "../../components/Button";
+import { CustonSecondaryButton } from "../../components/SecondaryButton";
 
 
 export default function DrawPage()
 {
     const [isLogued, setIsLogued] = useState(false);
+    const [returnToLoginPage, setReturnToLoginPage] = useState(false); 
 
     const [phone, setPhoneText] = useState("");
     const [pass, setPassText] = useState("");
@@ -23,6 +25,7 @@ export default function DrawPage()
 
     const [selectedNumbers, setSelectedNumbers] = useState([]);
 
+    const [enableClick, setEnableClick] = useState(true);
 
     async function handleLogin()
     {
@@ -50,12 +53,24 @@ export default function DrawPage()
         setLoadingUser(false);
     }
 
+    function clearSelection()
+    {
+        setEnableClick(true);
+        setSelectedNumbers([]);
+    }
+
     function appendNumbers(number)
     {
-        if(selectedNumbers.indexOf(number) == -1)
-            setSelectedNumbers( selectedNumbers => [...selectedNumbers, number]);
-        else
-            setSelectedNumbers( current=> current.filter(element => { return element !== number } ) )
+        
+        if(selectedNumbers.length == userData.currentPurchase - 1)
+            setEnableClick(false); 
+
+        if(selectedNumbers.length < userData.currentPurchase )
+            setSelectedNumbers( selectedNumbers => [...selectedNumbers, number]); 
+        
+        //setSelectedNumbers( current=> current.filter(element => { return element !== number } ) )
+        
+            
     }
 
     return(
@@ -76,10 +91,11 @@ export default function DrawPage()
 
                         <Text style={{color: 'gray', marginBottom: 8}}>Números escolhidos: <Text style={styles.strongText} >{selectedNumbers.length} / {userData.currentPurchase}</Text></Text>
                         <Text style={styles.selectedNumbers}>{selectedNumbers.map((number)=> { return number + ' '} )}</Text>
-                        <NumberSelector appendNumbers={appendNumbers}  />
+                        <NumberSelector appendNumbers={appendNumbers} enabledClick={enableClick} />
 
                         <View style={ { marginTop: 16, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%' } } > 
                             <CustonMainButton text={'Salvar'}/> 
+                            <CustonSecondaryButton text={'Limpar'} onClick = {()=>{clearSelection()}} />
                         </View>
 
                     </View>

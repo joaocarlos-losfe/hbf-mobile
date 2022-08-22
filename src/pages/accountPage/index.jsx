@@ -1,19 +1,61 @@
 import { useState } from "react";
-import { View, Text, Animated, Image } from "react-native";
+import { View, Text, Animated, Image, ActivityIndicator, Alert } from "react-native";
 import { CustonMainButton } from "../../components/Button";
 import { CustonInput } from "../../components/Input";
 import { CustonSecondaryButton } from "../../components/SecondaryButton";
 import {styles} from "./styles";
 
+import { API } from "../../services/ApiRequest";
+import { Colors } from "../../styles/GlobalStyles";
+
 
 export default function AccountPage({handleLoginState, phoneText, passText})
 {
     const [pageForDisplay, setPageForDisplay] = useState('login');
+
+    const [phone, setPhone] = useState("");
+    const [city, setCity] = useState("");
+    const [addres, setAddres] = useState("");
+    const [pass, setPass] = useState("");
+
+    const [loadingSubmit, setLoadingSubmit] = useState(false);
     
 
     async function handleSubmitLogin()
     {
         await handleLoginState(true);
+    }
+
+    function clearInputs()
+    {
+        setPhone("");
+        setCity("");
+        setAddres("");
+        setPass("");
+    }
+
+    async function handleCreateAccount()
+    {
+        if(phone == "" || city == "" || addres == "" || pass == "")
+            return;
+
+        setLoadingSubmit(true);
+        
+
+        const response = await API.put(`/houseburguer/api/user/userRegister/${phone}`, 
+        {
+            city,
+            referencyPoit: addres,
+            pass
+        })
+        
+        Alert.alert(response.data.message);
+
+        if(response.data.user)
+            setPageForDisplay('login');
+        
+        clearInputs();
+        setLoadingSubmit(false);
     }
     
     return (
@@ -39,17 +81,22 @@ export default function AccountPage({handleLoginState, phoneText, passText})
                     </View>
                 </View>
                 :
+
+                loadingSubmit ? 
+                <ActivityIndicator color={Colors.primary} size='large'/>
+                :
                 <View style={styles.form}>
 
-                    <CustonInput placeHolderText={'Whatssap'}/>
-                    <CustonInput placeHolderText={'Cidade'}/>
-                    <CustonInput placeHolderText={'Endereço'}/>
-                    <CustonInput placeHolderText={'Defina uma senha'}/>
+                    <CustonInput placeHolderText={'Whatssap'} setText={setPhone}/>
+                    <CustonInput placeHolderText={'Cidade'} setText={setCity} />
+                    <CustonInput placeHolderText={'Endereço'} setText={setAddres}/>
+                    <CustonInput placeHolderText={'Defina uma senha'} setText={setPass}/>
 
                     <View style={styles.buttonsContainer}>
 
-                        <CustonMainButton text={'Criar'} />
-                        <CustonSecondaryButton text={'cancelar'} onClick={()=>{setPageForDisplay('login')}} />
+                        <CustonMainButton text={'Criar'} onClick={handleCreateAccount}/>
+
+                        <CustonSecondaryButton text={'Cancelar'} onClick={()=>{setPageForDisplay('login')}} />
 
                     </View>
 
