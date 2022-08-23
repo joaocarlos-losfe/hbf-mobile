@@ -9,7 +9,7 @@ import  DrawPage  from './Draw';
 
 const Tab = createBottomTabNavigator();
 
-const home = "Informação";
+const home = "Prêmio";
 const menu = "Cardápio";
 const promotion = "Promoções";
 const draw = "Sorteio";
@@ -26,7 +26,7 @@ export default function MainPageNavigator()
                     let iconName;
                     let rn = route.name;
                     if (rn == home)
-                        iconName = focused ? 'home' : 'home-outline'
+                        iconName = focused ? 'diamond' : 'diamond-outline'
                     else if(rn == menu)
                         iconName = focused ? 'food' : 'food-outline'
                     else if(rn == promotion)
