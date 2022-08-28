@@ -1,36 +1,49 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, ActivityIndicator } from "react-native";
 import { HbLogo } from "../../components/Logo";
-import { GlobalStyles } from "../../styles/GlobalStyles";
+import { Colors, GlobalStyles } from "../../styles/GlobalStyles";
 import { styles } from "./style";
+import { useEffect, useState } from "react";
+
+import { API } from "../../services/ApiRequest";
 
 import { PromotionCard } from "../../components/PromotionCard";
 
 export default function PromotionPage()
 {
+    const [loadingItems, setLoadingItems] = useState(true);
+    const [promotions, setPromotions] = useState([]);
+
+    async function getPromotions()
+    {
+        setLoadingItems(true);
+        const response = await API.get("houseburguer/api/promotion/get");
+        setPromotions(response.data.promotions);
+        setLoadingItems(false);
+
+    }
+
+    useEffect(()=>{ getPromotions()}, []);
+
     return (
         <View style={GlobalStyles.mainContainer}>
             <HbLogo/>
+            {
+                loadingItems ? <ActivityIndicator color={Colors.primary} size="large"/> :
 
-            <ScrollView style={styles.scrowView} horizontal={true} >
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10024778.jpg'}/>
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10030520.jpg'} />
-                <PromotionCard imageURI={'https://res.cloudinary.com/trakto/image/upload/w_1587,c_scale/v1644940746/thumbnail/tdk04ueahfiddgethssp.png'} />
-                <PromotionCard imageURI={'https://img.elo7.com.br/product/zoom/3E3E50D/artes-para-post-de-rede-social-hamburguer-story.jpg'} />
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10024778.jpg'}/>
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10030520.jpg'} />
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10024778.jpg'}/>
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10030520.jpg'} />
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10024778.jpg'}/>
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10030520.jpg'} />
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10024778.jpg'}/>
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10030520.jpg'} />
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10024778.jpg'}/>
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10030520.jpg'} />
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10024778.jpg'}/>
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10030520.jpg'} />
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10024778.jpg'}/>
-                <PromotionCard imageURI={'https://www.designi.com.br/images/preview/10030520.jpg'} />
-            </ScrollView>
+                <ScrollView style={styles.scrowView} horizontal={true} >
+                {
+                    promotions.map((item)=>
+                    {
+                        return <PromotionCard 
+                                key={item._id} 
+                                imageURI={item.referenceImageUrl} 
+                                itemName={item.promotionName} 
+                                />
+                    })
+                }
+                </ScrollView>
+            }
+            
 
         </View>
     )

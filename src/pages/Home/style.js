@@ -28,7 +28,7 @@ const styles = StyleSheet.create(
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
-        maxHeight: 370,
+        maxHeight: 350,
     },
 
     imageDesc:

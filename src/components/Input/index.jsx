@@ -1,7 +1,7 @@
 import { TextInput } from "react-native";
 import { styles } from "./style";
 
-export const CustonInput = ({placeHolderText, setText}) =>
+export const CustonInput = ({placeHolderText, setText, keyType}) =>
 {
     return (
         <TextInput 
@@ -9,6 +9,9 @@ export const CustonInput = ({placeHolderText, setText}) =>
         placeholder={placeHolderText}
         placeholderTextColor='gray'
         onChangeText={value => {setText(value)}}
+        keyboardType={keyType}
+    
+        
         />
     )
 }

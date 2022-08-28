@@ -6,6 +6,7 @@ import HomePage from './Home';
 import MenuPage from './Menu';
 import PromotionPage from './Promotions';
 import  DrawPage  from './Draw';
+import { Colors } from '../styles/GlobalStyles';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +38,7 @@ export default function MainPageNavigator()
                     return <MaterialCommunityIcons name={iconName} size={size} color={color}/>
                 },
                 
-                tabBarActiveTintColor:'#ee2f2b', 
+                tabBarActiveTintColor: Colors.primary, 
                 tabBarInactiveTintColor: 'gray', 
                 headerShown: false,
                 tabBarLabelStyle: {fontSize: 12},

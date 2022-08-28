@@ -1,0 +1,47 @@
+{
+                    loadingUser? <ActivityIndicator size='large' color={Colors.primary} />
+                    :
+                    !isLogued?
+                    <AccountPage phoneText={setPhoneText} passText={setPassText} handleLoginState={handleLogin} />
+                    :
+                    <View style={styles.userContainer}>
+                        <View style={styles.userPresentation}>
+                            <Text style={styles.text}>Olá, {userData.fullName} </Text>
+                            <Text style={{color: 'white'}}>Nivel: <Text style={styles.strongText}>{userData.level}{' (bronze)'}</Text> </Text>     
+                        </View>
+
+                        <Text style={{color: 'gray', marginBottom: 8}}>Números escolhidos: <Text style={styles.strongText} >{selectedNumbers.length} / {userData.currentPurchase}</Text></Text>
+                        <Text style={styles.selectedNumbers}>{selectedNumbers.map((number)=> { return number + '  '} )}</Text>
+                        <NumberSelector appendNumbers={appendNumbers} enabledClick={enableClick} />
+
+                        <View style={ { marginTop: 16, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%' } } > 
+                            <CustonMainButton text={'Salvar'}/> 
+                            <CustonSecondaryButton text={'Limpar'} onClick = {()=>{clearSelection()}} />
+                        </View>
+
+                    </View>
+                }
+
+
+                import { useState } from "react"
+                import { View } from "react-native"
+                import { ButtonWithSpring } from "../ButtonWithSpring";
+                import { styles } from "./style"
+                
+                export const NumberSelector = ({appendNumbers, enabledClick})=>
+                {
+                    const [numbers, setNumbers] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]);
+                    
+                    function setNumber(number)
+                    {
+                        appendNumbers(number)
+                    }
+                
+                    return(
+                        <View style={styles.mainContainer} >
+                        {
+                            numbers.map(number=>{ return <ButtonWithSpring key={number} text={number} enabledClick={enabledClick} setNumber={setNumber} />})
+                        }
+                        </View>
+                    )
+                }

@@ -14,7 +14,7 @@ export const GlobalStyles = StyleSheet.create(
         paddingHorizontal: 16, 
         paddingVertical: 48, 
         flexDirection: 'column', 
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
 })

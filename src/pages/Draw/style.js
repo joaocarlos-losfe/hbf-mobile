@@ -3,45 +3,12 @@ import { Colors } from "../../styles/GlobalStyles";
 
 export const styles = StyleSheet.create(
 {
-    userContainer:
+    mainView: 
     {
-        
-        borderWidth: 0.8,
-        display: 'flex',
-        flexDirection: 'column',
+        flex: 1,
         width: '100%',
-        justifyContent: 'space-around'
-    },
-
-    userPresentation:
-    {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: 24
-    },  
-
-    text:
-    {
-        color: 'white',
-        fontSize: 16
-    },
-
-    strongText:
-    {
-        color: Colors.primary
-    },
-
-    selectedNumbers:
-    {
-        padding: 10,
-        borderColor: Colors.secondary,
-        borderWidth: 1,
-        width: '100%',
-        color: 'white',
-        borderRadius: 4,
-        marginBottom: 24
+        height: 630,
+        flexDirection: "column",
     }
 })
 

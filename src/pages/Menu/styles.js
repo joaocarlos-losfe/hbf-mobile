@@ -5,10 +5,9 @@ const style = StyleSheet.create
 ({
     scrowView: 
     {
-        
         height: '95%',
         width: '100%',
-        padding: 4,
+        padding: 4
     }
 })
 
