@@ -5,14 +5,14 @@ import { CustonSecondaryButton } from "../../components/SecondaryButton"
 import { styles } from "./styles"
 
 import { drawPageContext } from "../Draw"
-import React, { useContext, useState } from "react"
+import { useContext, useState } from "react"
 import { Colors } from "../../styles/GlobalStyles"
 
 import { API } from "../../services/ApiRequest";
 
 export const CreateAccountPage = ()=>
 {
-    const {setPageType} = React.useContext(drawPageContext);
+    const {setPageType} = useContext(drawPageContext);
     
     const [whatsappText, setWhatssapText] = useState("");
     const [city, setCity] = useState("");

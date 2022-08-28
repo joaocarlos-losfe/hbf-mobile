@@ -11,7 +11,6 @@ export const CustonInput = ({placeHolderText, setText, keyType}) =>
         onChangeText={value => {setText(value)}}
         keyboardType={keyType}
     
-        
         />
     )
 }

@@ -21,5 +21,13 @@ export const styles= StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         marginBottom: 24
+    },
+
+    errorMsg:
+    {
+        color: Colors.primary,
+        textAlign: 'center',
+        fontSize: 14,
+        margin: 8
     }
 })
