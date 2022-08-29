@@ -35,6 +35,7 @@ export const LoginPage = ()=>
         else
         {
             setUserData(response.data);
+            setTimeout(()=>500);
             setPageType('userPage');
         }
 
