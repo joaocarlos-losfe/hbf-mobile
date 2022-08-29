@@ -9,7 +9,7 @@ import { LoginPage } from "../Login";
 import { CreateAccountPage } from "../CreateAccount";
 import { UserPage } from "../User";
 
-export const drawPageContext = createContext();
+export const drawPageContext = createContext({});
 
 export default function DrawPage()
 {

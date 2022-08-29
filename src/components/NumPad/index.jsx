@@ -20,8 +20,8 @@ export const NumPad = ()=>
     {
         const result = await API.get("houseburguer/api/lotteryNumbers/get");
 
-        if(result.data.numbers)
-            setNumbers(result.data.numbers);
+        if(result.data.selectedArr)
+            setNumbers(result.data.selectedArr);
         
         setLoadingNumbers(false);
     }
