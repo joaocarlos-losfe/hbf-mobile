@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, Alert } from "react-native";
 
 import { createContext, useContext, useState } from "react";
 import { drawPageContext } from "../Draw";
@@ -10,7 +10,6 @@ import { CustonSecondaryButton } from "../../components/SecondaryButton";
 
 import { API } from "../../services/ApiRequest";
 import { Colors } from "../../styles/GlobalStyles";
-import { Check } from "../../components/Check";
 
 export const userPageContext = createContext();
 
@@ -26,6 +25,13 @@ export const UserPage = ()=>
    
     async function handleSubmitNumbers()
     {
+        if(drawNumbers.length < maxCount)
+        {
+            Alert.alert("Total de números", "O total de números deve ser o total de compras de items");
+            return;
+        }
+            
+
         setLoadingSubmit(true);
         const response = await API.put(`houseburguer/api/user/append-numbers/${userData.phone}`, {numbers: drawNumbers});
         console.log(response.data);
@@ -58,8 +64,8 @@ export const UserPage = ()=>
                     maxCount == 0 && !wasAdded ? 
 
                     <View>
-                        <Text style={{color: Colors.primary, fontSize: 36, textAlign: 'center'}} >
-                            Sinto muito, você ainda não possui compra de lanche recente para escolher seus números 😢</Text>
+                        <Text style={{color: Colors.primary, fontSize: 32, textAlign: 'center'}} >
+                            Sinto muito, você ainda não possui nenhuma compra de lanche recentemente para escolher seus números 😢</Text>
                     </View>
                     :
                     wasAdded? 
