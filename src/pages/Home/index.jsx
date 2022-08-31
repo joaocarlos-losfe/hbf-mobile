@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 
 import { API } from "../../services/ApiRequest";
 
-import Moment from 'moment';
 
 export default function HomePage()
 {
@@ -39,7 +38,14 @@ export default function HomePage()
 
     }
 
-    useEffect(()=>{Moment.locale('pt-br'); loadLastData() }, []);
+    function getCurrentLocaleDate()
+    {
+        var numDate= new Date(dadosSorteio.date);
+
+        return `${numDate.getDay()}/${numDate.getMonth()}/${numDate.getFullYear()}`;
+    }
+
+    useEffect(()=>{ loadLastData() }, []);
     
     return (
         <View style={GlobalStyles.mainContainer} >
@@ -65,7 +71,7 @@ export default function HomePage()
                 :
                 <View>
                     <Text style={styles.mainText} >
-                        Próximo sorteio acontencerá dia <Text style={styles.strongText}>{Moment(new Date(dadosSorteio.date)).format('DD/MM/YY HH:MM')} </Text>  
+                        Próximo sorteio acontencerá dia <Text style={styles.strongText}>{getCurrentLocaleDate() } </Text>  
                         e o prêmio será de <Text style={styles.strongText}>{dadosSorteio.award}</Text>
                     </Text>
 
